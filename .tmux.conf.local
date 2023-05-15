@@ -21,7 +21,7 @@
 #   - true
 #   - false (default)
 #   - disabled (do not modify new-window bindings)
-tmux_conf_new_window_retain_current_path=false
+tmux_conf_new_window_retain_current_path=true
 
 # new pane retains current path, possible values are:
 #   - true (default)
@@ -33,13 +33,13 @@ tmux_conf_new_pane_retain_current_path=true
 #   - true
 #   - false (default)
 #   - disabled (do not modify split-window bindings)
-tmux_conf_new_pane_reconnect_ssh=false
+tmux_conf_new_pane_reconnect_ssh=true
 
 # prompt for session name when creating a new session, possible values are:
 #   - true
 #   - false (default)
 #   - disabled (do not modify new-session bindings)
-tmux_conf_new_session_prompt=false
+tmux_conf_new_session_prompt=true
 
 
 # -- display -------------------------------------------------------------------
@@ -449,6 +449,7 @@ bind n command-prompt "rename-window '%%'"
 # bind c new-window -c "#{pane_current_path}"
 
 bind | split-window -h -c "#{pane_current_path}"
+bind _ split-window -v -c "#{pane_current_path}"
 
 # Alt j/k key to switch windows 
 bind -n M-j previous-window
@@ -458,3 +459,10 @@ bind -n M-k next-window
 bind j command-prompt -p "join pane from:"  "join-pane -s '%%'"
 bind s command-prompt -p "send pane to:"  "join-pane -t '%%'"
 
+# pressing Shift+Left (will move the current window to the left. Similarly right).
+bind -n S-Left { swap-window -t -1; previous-window }
+bind -n S-Right { swap-window -t +1; next-window }
+
+# change session: keybinding: C-S-Left/Right and C-Space-(/)
+bind -n C-S-Left switch-client -p
+bind -n C-S-Right switch-client -n
